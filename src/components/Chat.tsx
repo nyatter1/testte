@@ -16,7 +16,7 @@ const IMAGE_EXT_REGEX = /\.(png|jpg|jpeg|gif|webp|svg)(\?.*)?$/i;
 const VIDEO_EXT_REGEX = /\.(mp4|webm|ogg|mov)(\?.*)?$/i;
 const FORBIDDEN_TLDS = /\.(online|site|indevs\.in)(\/.*)?$/i;
 
-export const DEV_EMAILS = ['test@gmail.com', 'dev@gmail.com', 'haydensixseven@gmail.com'];
+export const DEV_EMAILS = ['test@gmail.com', 'dev@gmail.com', 'haydensixseven@gmail.com','onetallteen@duck.com' ];
 export const FOUNDER_EMAILS: string[] = ['minlee214@gmail.com']; // Add emails here
 export const MOP_EMAILS: string[] = []; // Add emails here
 export const SUPERADMIN_EMAILS: string[] = [];
@@ -3711,8 +3711,7 @@ function ProfileModal({
                       <button onClick={() => setActiveEditModal('card_bg')} className="py-2.5 bg-[#1e1e22] border border-zinc-800 hover:bg-[#252529] text-white rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-1.5"><ImageIcon className="w-4 h-4 text-emerald-500" /> Edit Background</button>
                       <button onClick={() => setActiveEditModal('border_borders')} className="py-2.5 bg-[#1e1e22] border border-zinc-800 hover:bg-[#252529] text-white rounded-lg text-sm font-medium transition-colors">Borders</button>
                       <button onClick={() => setActiveEditModal('border_effects')} className="py-2.5 bg-[#1e1e22] border border-zinc-800 hover:bg-[#252529] text-white rounded-lg text-sm font-medium transition-colors">Effects</button>
-                      <button onClick={() => setActiveEditModal('border_combos')} className="py-2.5 bg-[#1e1e22] border border-zinc-800 hover:bg-[#252529] text-white rounded-lg text-sm font-medium transition-colors">Combos</button>
-                      <button onClick={() => setActiveEditModal('border_creator')} className="py-2.5 bg-[#1e1e22] border border-zinc-800 hover:bg-[#252529] text-white rounded-lg text-sm font-medium transition-colors">Creator</button>
+                      <button onClick={() => setActiveEditModal('border_combos')} className="py-2.5 bg-[#1e1e22] border border-zinc-800 hover:bg-[#252529] text-white rounded-lg text-sm font-medium transition-colors col-span-2">Combos</button>
                       <button onClick={() => setActiveEditModal('usercards')} className="py-2.5 bg-[#1e1e22] border border-emerald-500/20 hover:border-emerald-500/50 hover:bg-[#252529] text-emerald-400 hover:text-emerald-300 rounded-lg text-sm font-semibold transition-all flex items-center justify-center gap-1.5 shadow-md col-span-2">
                         <Layers className="w-4.5 h-4.5 text-emerald-500" /> Usercards
                       </button>
@@ -3837,20 +3836,6 @@ function ProfileModal({
       )}
       {activeEditModal === 'border_combos' && (
         <ProfileCombosModal 
-          profile={profile!} 
-          bioData={bioData} 
-          onClose={() => setActiveEditModal(null)} 
-          onSave={(val: any) => {
-            const newBio = stringifyBio({ 
-              ...bioData, 
-              ...val
-            });
-            updateProfileData({ bio: newBio });
-          }} 
-        />
-      )}
-      {activeEditModal === 'border_creator' && (
-        <ProfileCreatorModal 
           profile={profile!} 
           bioData={bioData} 
           onClose={() => setActiveEditModal(null)} 
@@ -4506,8 +4491,8 @@ function ProfileCreatorModal({ profile, bioData, onClose, onSave }: any) {
 }
 
 function ProfileBorderForm({ profile, onClose, onSave, bioData, initialTab }: any) {
-  const [activeTab, setActiveTab] = useState<'combos' | 'effects' | 'borders' | 'creator'>(() => {
-    if (initialTab === 'borders' || initialTab === 'effects' || initialTab === 'combos' || initialTab === 'creator') {
+  const [activeTab, setActiveTab] = useState<'combos' | 'effects' | 'borders'>(() => {
+    if (initialTab === 'borders' || initialTab === 'effects' || initialTab === 'combos') {
       return initialTab;
     }
     return 'combos';
@@ -4737,7 +4722,7 @@ function ProfileBorderForm({ profile, onClose, onSave, bioData, initialTab }: an
           </div>
 
           {/* Workspace category tabs */}
-          <div className="grid grid-cols-4 gap-1 bg-[#141416] p-1 rounded-xl border border-zinc-900 animate-in fade-in duration-300">
+          <div className="grid grid-cols-3 gap-1 bg-[#141416] p-1 rounded-xl border border-zinc-900 animate-in fade-in duration-300">
             <button 
               onClick={() => setActiveTab('combos')} 
               className={`py-2 rounded-lg text-xs font-extrabold flex items-center justify-center transition-all ${
@@ -4767,16 +4752,6 @@ function ProfileBorderForm({ profile, onClose, onSave, bioData, initialTab }: an
               }`}
             >
               <span>Borders</span>
-            </button>
-            <button 
-              onClick={() => setActiveTab('creator')} 
-              className={`py-2 rounded-lg text-xs font-extrabold flex items-center justify-center transition-all ${
-                activeTab === 'creator' 
-                  ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-sm font-black' 
-                  : 'text-zinc-400 hover:text-white hover:bg-zinc-800/40'
-              }`}
-            >
-              <span>Creator</span>
             </button>
           </div>
 
@@ -4960,7 +4935,7 @@ function ProfileBorderForm({ profile, onClose, onSave, bioData, initialTab }: an
             )}
 
             {/* PANEL 4: CUSTOM BORDER DESIGN BUILDER */}
-            {activeTab === 'creator' && (
+            {(activeTab as string) === 'creator' && (
               <div className="flex flex-col gap-4 animate-in fade-in duration-200">
                 <div className="p-3 bg-zinc-950/40 border border-zinc-900 rounded-xl">
                   <p className="text-[10px] text-zinc-400 font-medium leading-relaxed">
